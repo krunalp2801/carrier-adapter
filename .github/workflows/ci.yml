@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  # Tests run straight from the TypeScript sources via Node's type stripping,
+  # which needs Node 22.6+. That constrains developing this project, not
+  # running it.
+  test:
+    name: test (node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ["22.x", "24.x"]
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: npm
+      - run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Test
+        run: node --experimental-strip-types --test test/*.test.ts
+      - name: Build
+        run: npm run build
+      - name: Demo runs end to end
+        run: npm run demo
+
+  # The published artifact is compiled JavaScript, so it runs on Node 20 even
+  # though the test harness cannot. This proves the engines.node claim rather
+  # than leaving it as an assertion nobody checks.
+  runtime-node20:
+    name: built output runs on node 20
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - name: Demo runs end to end
+        run: node dist/src/demo.js

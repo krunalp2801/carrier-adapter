@@ -1,0 +1,19 @@
+node_modules/
+dist/
+*.tsbuildinfo
+
+# secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# drafts that are not part of the published project
+LINKEDIN.md
+
+# os / editor
+.DS_Store
+*.log
+.idea/
+.vscode/

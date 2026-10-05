@@ -1,0 +1,36 @@
+{
+  "name": "carrier-adapter",
+  "version": "0.1.0",
+  "description": "One API over DHL, DPD and GLS for labels and tracking, with address normalisation up front and honest capability reporting instead of a lowest-common-denominator interface.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Krunal Patel",
+  "main": "dist/src/index.js",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc",
+    "demo": "node --experimental-strip-types src/demo.ts",
+    "test": "tsc --noEmit && node --experimental-strip-types --test test/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "shipping",
+    "dhl",
+    "dpd",
+    "gls",
+    "adapter-pattern",
+    "logistics",
+    "ecommerce"
+  ],
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "typescript": "^7.0.2"
+  }
+}
